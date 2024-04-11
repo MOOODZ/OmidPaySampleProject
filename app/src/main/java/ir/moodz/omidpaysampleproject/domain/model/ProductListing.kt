@@ -1,6 +1,6 @@
 package ir.moodz.omidpaysampleproject.domain.model
 
-data class Product(
+data class ProductListing(
     val id: Int,
     val title: String,
     val price: Double,

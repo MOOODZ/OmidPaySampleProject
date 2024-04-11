@@ -1,16 +1,31 @@
 package ir.moodz.omidpaysampleproject.data.local
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 
 @Dao
 interface ProductDao {
 
-    @Upsert
-    suspend fun upsertAll(products: List<ProductEntity>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProducts(
+        productListEntity: List<ProductEntity>
+    )
 
     @Query("DELETE FROM ProductEntity")
     suspend fun clearAll()
+
+
+    @Query(
+        """
+            SELECT *
+            FROM ProductEntity
+            WHERE LOWER(title) LIKE '%' || LOWER(:query) || '%' OR
+            UPPER(:query) == title
+        
+        """
+    )
+    suspend fun searchProducts(query: String): List<ProductEntity>
 
 }
