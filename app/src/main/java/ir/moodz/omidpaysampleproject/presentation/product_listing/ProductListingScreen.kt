@@ -1,15 +1,21 @@
-package ir.moodz.omidpaysampleproject.presentation.products_list
+package ir.moodz.omidpaysampleproject.presentation.product_listing
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,14 +23,16 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import ir.moodz.omidpaysampleproject.presentation.products_list.components.ProductItem
+import ir.moodz.omidpaysampleproject.presentation.destinations.ProductDetailScreenDestination
+import ir.moodz.omidpaysampleproject.presentation.product_listing.component.ProductItem
+import ir.moodz.omidpaysampleproject.ui.theme.DarkBlue
 
 @Composable
 @Destination(start = true)
-fun ProductListingsScreen (
+fun ProductListingsScreen(
     navigator: DestinationsNavigator,
-    viewModel: ProductsListViewModel = hiltViewModel()
-){
+    viewModel: ProductListingViewModel = hiltViewModel()
+) {
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
     )
@@ -56,25 +64,29 @@ fun ProductListingsScreen (
             }
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(state.productListings.size){ index ->
-                    val product = state.productListings[index]
+                items(
+                    state.productListings,
+                    key = {
+                        it.id
+                    }
+                ){product ->
                     ProductItem(
                         product = product,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(
+                                horizontal = 16.dp
+                            )
                             .clickable {
-                                // Todo: Navigate to detail screen
+                                navigator.navigate(
+                                    ProductDetailScreenDestination(product.id)
+                                )
                             }
                     )
-                    // Make sure that the last item doesn't have a divider
-                    if (index < state.productListings.size){
-                        Divider(modifier = Modifier.padding(
-                                horizontal = 16.dp
-                        ))
-                    }
-
                 }
             }
 

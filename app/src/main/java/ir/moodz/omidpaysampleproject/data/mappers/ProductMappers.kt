@@ -11,7 +11,8 @@ fun ProductDto.toProductEntity(): ProductEntity {
         price = price,
         description = description,
         category = category,
-        image = image
+        image = image,
+        isBookmarked = isBookmarked
     )
 }
 
@@ -22,6 +23,7 @@ fun ProductEntity.toProduct(): ProductListing {
         price = price,
         description = description,
         category = category,
-        image = image
+        image = image,
+        isBookmarked = isBookmarked
     )
 }

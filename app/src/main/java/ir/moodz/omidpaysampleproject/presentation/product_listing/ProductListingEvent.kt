@@ -1,4 +1,4 @@
-package ir.moodz.omidpaysampleproject.presentation.products_list
+package ir.moodz.omidpaysampleproject.presentation.product_listing
 
 sealed class ProductListingEvent {
     data object Refresh: ProductListingEvent()

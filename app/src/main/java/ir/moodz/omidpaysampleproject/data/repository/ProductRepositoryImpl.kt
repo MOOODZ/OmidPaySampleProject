@@ -40,8 +40,7 @@ class ProductRepositoryImpl @Inject constructor(
             }
 
             val remoteProduct = try {
-                val response = api.getProducts()
-                response.sortedBy { it.price }
+                api.getProducts()
             } catch (e: IOException){
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
@@ -52,7 +51,8 @@ class ProductRepositoryImpl @Inject constructor(
                 null
             }
 
-            // We first clear and only then insert the products because of the Single Source of Truth principle
+            /*We first clear and only then insert the products because of
+            the Single Source of Truth principle*/
             remoteProduct?.let {products ->
                 dao.clearAll()
                 dao.insertProducts(
@@ -68,5 +68,17 @@ class ProductRepositoryImpl @Inject constructor(
             }
 
         }
+    }
+
+    override suspend fun getProductDetail(id: Int): Flow<ProductListing> {
+        return flow {
+            emit(
+                dao.productInfo(id).toProduct()
+            )
+        }
+    }
+
+    override suspend fun setBookmark(id: Int, setBookmark:Int) {
+        dao.setBookmark(id, setBookmark)
     }
 }

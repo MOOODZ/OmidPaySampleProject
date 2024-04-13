@@ -1,4 +1,4 @@
-package ir.moodz.omidpaysampleproject.presentation.products_list
+package ir.moodz.omidpaysampleproject.presentation.product_listing
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,11 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsListViewModel @Inject constructor(
+class ProductListingViewModel @Inject constructor(
     private val repository: ProductRepository
 ) : ViewModel() {
 
-    var state by mutableStateOf(ProductsListingState())
+    var state by mutableStateOf(ProductListingState())
     private var searchJob: Job? = null
 
     init {
@@ -36,7 +36,7 @@ class ProductsListViewModel @Inject constructor(
                 state = state.copy(searchQuery = event.query)
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
-                    delay(500L)
+                    delay(300L)
                     getProductListing()
                 }
             }
@@ -57,7 +57,9 @@ class ProductsListViewModel @Inject constructor(
                     when(result){
                         is Resource.Success -> {
                             result.data?.let { listings ->
-                                state = state.copy(productListings = listings)
+                                state = state.copy(
+                                    productListings = listings.sortedBy { it.price }
+                                )
                             }
                         }
                         is Resource.Error -> {

@@ -10,4 +10,8 @@ interface ProductRepository {
         fetchFromRemote: Boolean,
         query: String
     ): Flow<Resource<List<ProductListing>>>
+
+    suspend fun getProductDetail(id: Int): Flow<ProductListing>
+
+    suspend fun setBookmark(id:Int, setBookmark:Int)
 }

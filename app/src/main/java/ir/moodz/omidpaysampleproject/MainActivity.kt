@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import ir.moodz.omidpaysampleproject.presentation.products_list.NavGraphs
+import ir.moodz.omidpaysampleproject.presentation.NavGraphs
 import ir.moodz.omidpaysampleproject.ui.theme.OmidPaySampleProjectTheme
 
 @AndroidEntryPoint
