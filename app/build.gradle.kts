@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.devtoolKsp)
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -68,8 +69,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation (libs.accompanist.swiperefresh)
     implementation (libs.lifecycle.runtime.compose)
     implementation (libs.lifecycle.viewmodel.compose)
+
+    // Compose Nav Destinations
+    implementation (libs.core)
+    ksp (libs.ksp)
 
     // Coil Compose
     implementation (libs.coil.compose)

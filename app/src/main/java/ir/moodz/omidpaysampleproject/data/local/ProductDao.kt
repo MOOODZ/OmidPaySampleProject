@@ -21,9 +21,7 @@ interface ProductDao {
         """
             SELECT *
             FROM ProductEntity
-            WHERE LOWER(title) LIKE '%' || LOWER(:query) || '%' OR
-            UPPER(:query) == title
-        
+            WHERE LOWER(title) LIKE '%' || LOWER(:query) || '%'
         """
     )
     suspend fun searchProducts(query: String): List<ProductEntity>

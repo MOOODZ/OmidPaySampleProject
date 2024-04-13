@@ -20,6 +20,11 @@ class ProductsListViewModel @Inject constructor(
 
     var state by mutableStateOf(ProductsListingState())
     private var searchJob: Job? = null
+
+    init {
+        getProductListing()
+    }
+
     fun onEvent(event: ProductListingEvent) {
 
         when (event) {

@@ -16,8 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductRepositoryImpl @Inject constructor(
-    val api: ProductApi,
-    val db: ProductDatabase
+    private val api: ProductApi,
+    private val db: ProductDatabase
 ) : ProductRepository {
 
     private val dao = db.productDao
