@@ -26,13 +26,14 @@ class ProductRepositoryImpl @Inject constructor(
         query: String
     ): Flow<Resource<List<ProductListing>>> {
         return flow {
+
             emit(Resource.Loading(true))
-            val productsList = dao.searchProducts(query)
+            val localProductListing = dao.searchProducts(query)
             emit(Resource.Success(
-                data = productsList.map { it.toProduct() }
+                data = localProductListing.map { it.toProduct() }
             ))
 
-            val isDbEmpty = productsList.isEmpty() && query.isBlank()
+            val isDbEmpty = localProductListing.isEmpty() && query.isBlank()
             val shouldLoadFromCache = !isDbEmpty && !fetchFromRemote
             if (shouldLoadFromCache){
                 emit(Resource.Loading(false))
